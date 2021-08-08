@@ -1881,4 +1881,86 @@ describe('Characteristic', () => {
 
   });
 
+  describe('targetHeatingCoolingState - @homebridge/homebridge#2960', () => {
+    it('allows state 3 to be set on targetHeatingCoolingState', () => {
+      const characteristic = new Characteristic.TargetHeatingCoolingState();
+
+      // @ts-ignore - spying on private property
+      const mock = jest.spyOn(characteristic, 'characteristicWarning');
+
+      mock.mockReset();
+
+      characteristic.setValue(3);
+
+      expect(characteristic.value).toEqual(3);
+      expect(mock).not.toBeCalled();
+    });
+
+    it('allows state 3 to be set on targetHeatingCoolingState when heat mode removed', () => {
+      const characteristic = new Characteristic.TargetHeatingCoolingState();
+
+      characteristic.setProps({
+        validValues: [
+          Characteristic.TargetHeatingCoolingState.OFF,
+          Characteristic.TargetHeatingCoolingState.COOL,
+          Characteristic.TargetHeatingCoolingState.AUTO,
+        ],
+      });
+
+      // @ts-ignore - spying on private property
+      const mock = jest.spyOn(characteristic, 'characteristicWarning');
+
+      mock.mockReset();
+
+      characteristic.setValue(3);
+
+      expect(characteristic.value).toEqual(3);
+      expect(mock).not.toBeCalled();
+    });
+
+    it('allows state 3 to be set on targetHeatingCoolingState when cool mode removed ', () => {
+      const characteristic = new Characteristic.TargetHeatingCoolingState();
+
+      characteristic.setProps({
+        validValues: [
+          Characteristic.TargetHeatingCoolingState.OFF,
+          Characteristic.TargetHeatingCoolingState.HEAT,
+          Characteristic.TargetHeatingCoolingState.AUTO,
+        ],
+      });
+
+      // @ts-ignore - spying on private property
+      const mock = jest.spyOn(characteristic, 'characteristicWarning');
+
+      mock.mockReset();
+
+      characteristic.setValue(3);
+
+      expect(characteristic.value).toEqual(3);
+      expect(mock).not.toBeCalled();
+    });
+
+    it('does not allow state 3 to be set on targetHeatingCoolingState when auto mode removed', () => {
+      const characteristic = new Characteristic.TargetHeatingCoolingState();
+
+      characteristic.setProps({
+        validValues: [
+          Characteristic.TargetHeatingCoolingState.OFF,
+          Characteristic.TargetHeatingCoolingState.HEAT,
+          Characteristic.TargetHeatingCoolingState.COOL,
+        ],
+      });
+
+      // @ts-ignore - spying on private property
+      const mock = jest.spyOn(characteristic, 'characteristicWarning');
+
+      mock.mockReset();
+
+      characteristic.setValue(3);
+
+      expect(characteristic.value).toEqual(0);
+      expect(mock).toBeCalledTimes(1);
+    });
+  });
+
 });
