@@ -6,13 +6,15 @@ const MQTT_SENSOR = {
 
   currentTemperature: 7,
   getTemperature: function () {
-    console.log("Getting the current temperature!");
+    console.log(location+ ' temperature: %s',MQTT_SENSOR.currentTemperature.toString());
+    //console.log("Getting the current temperature!");
     return MQTT_SENSOR.currentTemperature;
   },  
   
   CurrentRelativeHumidity: 77,
   getHumidity: function () {
-    console.log("Getting the current RelativeHumidity!");
+    console.log(location+ ' humidity: %s',MQTT_SENSOR.CurrentRelativeHumidity.toString());
+    //console.log("Getting the current RelativeHumidity!");
     return MQTT_SENSOR.CurrentRelativeHumidity;
   }
  };
@@ -24,10 +26,10 @@ var client = mqtt.connect('mqtt://192.168.1.200');
 client.on('connect', function () {
   client.subscribe('sensors/'+location, function (err: any) {
     if (err) {
-      console.log("failed to subscribe to MQTT broker")
+      console.log("failed to subscribe to MQTT broker");
     }
     else {
-      console.log("Sensor subscribed to MQTT broker")
+      console.log("Sensor subscribed to MQTT broker");
     }
   })
 })
@@ -35,8 +37,8 @@ client.on('connect', function () {
 client.on('message', function(topic: any, message: any) {
   // message is Buffer 
   var data = JSON.parse(message);
-  console.log(location+ ' temperature: %s',data.temperature.toString())
-  console.log(location+ ' humidity: %s',data.humidity.toString())
+  //console.log(location+ ' temperature: %s',data.temperature.toString());
+  //console.log(location+ ' humidity: %s',data.humidity.toString());
   MQTT_SENSOR.currentTemperature = data.temperature;
   MQTT_SENSOR.CurrentRelativeHumidity = data.humidity;
 });
