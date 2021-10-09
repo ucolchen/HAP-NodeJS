@@ -26,10 +26,10 @@ var client = mqtt.connect('mqtt://192.168.1.200');
 client.on('connect', function () {
   client.subscribe('sensors/'+location, function (err: any) {
     if (err) {
-      console.log("failed to subscribe to MQTT broker");
+      console.log("failed to subscribe to MQTT broker")
     }
     else {
-      console.log("Sensor subscribed to MQTT broker");
+      console.log("Sensor subscribed to MQTT broker")
     }
   })
 })
