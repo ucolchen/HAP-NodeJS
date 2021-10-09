@@ -6,14 +6,14 @@ const MQTT_SENSOR = {
 
   currentTemperature: 7,
   getTemperature: function () {
-    console.log(location+ ' temperature: %s',MQTT_SENSOR.currentTemperature.toString());
+    //console.log(location+ ' temperature: %s',MQTT_SENSOR.currentTemperature.toString());
     //console.log("Getting the current temperature!");
     return MQTT_SENSOR.currentTemperature;
   },  
   
   CurrentRelativeHumidity: 77,
   getHumidity: function () {
-    console.log(location+ ' humidity: %s',MQTT_SENSOR.CurrentRelativeHumidity.toString());
+    //console.log(location+ ' humidity: %s',MQTT_SENSOR.CurrentRelativeHumidity.toString());
     //console.log("Getting the current RelativeHumidity!");
     return MQTT_SENSOR.CurrentRelativeHumidity;
   }
@@ -37,8 +37,8 @@ client.on('connect', function () {
 client.on('message', function(topic: any, message: any) {
   // message is Buffer 
   var data = JSON.parse(message);
-  //console.log(location+ ' temperature: %s',data.temperature.toString());
-  //console.log(location+ ' humidity: %s',data.humidity.toString());
+  console.log(location+ ' temperature: %s',data.temperature.toString());
+  console.log(location+ ' humidity: %s',data.humidity.toString());
   MQTT_SENSOR.currentTemperature = data.temperature;
   MQTT_SENSOR.CurrentRelativeHumidity = data.humidity;
 });
